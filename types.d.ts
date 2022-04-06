@@ -23,3 +23,12 @@ export interface Post {
     ];
   };
 }
+
+export interface WidgetPost {
+  title: string;
+  featuredImage: {
+    url: string;
+  };
+  createdAt: string;
+  slug: string;
+}

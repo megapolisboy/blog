@@ -67,9 +67,9 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
       <div className="text-center">
         <Link href={`/post/${postContent.slug}`}>
           <span
-            className="inline-block transform cursor-pointer rounded-full 
-          bg-pink-600 px-8 py-3 text-lg font-medium text-white
-          transition duration-500 hover:-translate-y-1"
+            className="mb-6 inline-block transform cursor-pointer 
+          rounded-full bg-pink-600 px-8 py-3 text-lg font-medium
+          text-white transition duration-500 hover:-translate-y-1 lg:mb-0"
           >
             Continue Reading
           </span>
