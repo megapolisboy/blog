@@ -1,5 +1,5 @@
 import { request, gql } from "graphql-request";
-import { Post, WidgetPost } from "../types";
+import { Category, Post, PostDetails, WidgetPost } from "../types";
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!;
 
@@ -79,6 +79,52 @@ export const getSimilarPosts = async (
     }
   `;
 
-  const result = await request(graphqlAPI, query);
+  const result = await request(graphqlAPI, query, { slug, categories });
   return result.posts;
+};
+
+export const getCategories = async (): Promise<Category[]> => {
+  const query = gql`
+    query GetCategories {
+      categories {
+        name
+        slug
+      }
+    }
+  `;
+
+  const result = await request(graphqlAPI, query);
+  return result.categories;
+};
+
+export const getPostDetails = async (slug: string): Promise<PostDetails> => {
+  const query = gql`
+    query GetPostDetails($slug: String!) {
+      post(where: { slug: $slug }) {
+        title
+        excerpt
+        featuredImage {
+          url
+        }
+        author {
+          name
+          bio
+          photo {
+            url
+          }
+        }
+        createdAt
+        slug
+        content {
+          raw
+        }
+        categories {
+          name
+          slug
+        }
+      }
+    }
+  `;
+  const result = await request(graphqlAPI, query, { slug });
+  return result.post;
 };

@@ -37,6 +37,7 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
+  // TODO: add incremental static regeneration
   const posts = (await getPosts()) || [];
   return {
     props: {
