@@ -54,3 +54,10 @@ export interface PostDetails extends PostInfo {
     };
   };
 }
+
+export interface CommentType {
+  name: string;
+  email: string;
+  comment: string;
+  slug: string;
+}
