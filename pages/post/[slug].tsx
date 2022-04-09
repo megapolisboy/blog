@@ -49,11 +49,11 @@ export default PostDetails;
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   // TODO: add incremental static regeneration
   const postDetails = await getPostDetails(String(params?.slug));
-  console.log(postDetails);
   return {
     props: {
       post: postDetails,
     },
+    revalidate: 60,
   };
 };
 
@@ -65,6 +65,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
         slug,
       },
     })),
-    fallback: false,
+    fallback: "blocking",
   };
 };

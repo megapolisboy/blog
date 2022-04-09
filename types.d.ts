@@ -61,3 +61,9 @@ export interface CommentType {
   comment: string;
   slug: string;
 }
+
+export interface CommentSimplified {
+  name: string;
+  createdAt: string;
+  comment: string;
+}

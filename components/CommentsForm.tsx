@@ -43,7 +43,6 @@ const CommentsForm: React.FC<CommentsFormProps> = ({ slug }) => {
     if (shouldStoreData) {
       window.localStorage.setItem("name", name);
       window.localStorage.setItem("email", email);
-      console.log("added to lacal storage");
     } else {
       window.localStorage.removeItem("name");
       window.localStorage.removeItem("email");

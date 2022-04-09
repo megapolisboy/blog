@@ -1,7 +1,14 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { Categories, Header, PostCard, PostWidget } from "../components";
+import {
+  Categories,
+  Header,
+  PostCard,
+  PostDemo,
+  PostWidget,
+} from "../components";
+import FeaturedPosts from "../components/FeaturedPosts";
 import { getPosts } from "../services";
 import { Post } from "../types";
 
@@ -16,8 +23,9 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
         <title>Blog</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <FeaturedPosts posts={posts} />
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-        <div className="col-span-1 lg:col-span-8">
+        <div className="col-span-1 mb-10 lg:col-span-8">
           {posts.map((post, i) => (
             <PostCard key={post.node.title} post={post} />
           ))}
@@ -37,11 +45,9 @@ const Home: NextPage<HomeProps> = ({ posts }) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async () => {
-  // TODO: add incremental static regeneration
-  const posts = (await getPosts()) || [];
+  const posts = ((await getPosts()) as any[]) || [];
   return {
-    props: {
-      posts,
-    },
+    props: { posts },
+    revalidate: 60,
   };
 };

@@ -17,10 +17,10 @@ export default async function comments(
 
   const query = gql`
     mutation CreateComment(
-      $name: string!
-      $email: string!
-      $comment: string!
-      $slug: string!
+      $name: String!
+      $email: String!
+      $comment: String!
+      $slug: String!
     ) {
       createComment(
         data: {
@@ -29,7 +29,9 @@ export default async function comments(
           comment: $comment
           post: { connect: { slug: $slug } }
         }
-      )
+      ) {
+        id
+      }
     }
   `;
 

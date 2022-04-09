@@ -1,5 +1,13 @@
 import { request, gql } from "graphql-request";
-import { Category, CommentType, Post, PostDetails, WidgetPost } from "../types";
+import {
+  Category,
+  CommentSimplified,
+  CommentType,
+  Post,
+  PostDetails,
+  PostInfo,
+  WidgetPost,
+} from "../types";
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT!;
 
@@ -139,4 +147,52 @@ export const submitComment = async (obj: CommentType) => {
   });
 
   return result.json();
+};
+
+export const getComments = async (slug: string) => {
+  const query = gql`
+    query GetComments($slug: String!) {
+      comments(where: { post: { slug: $slug } }) {
+        name
+        createdAt
+        comment
+      }
+    }
+  `;
+
+  const result = await request(graphqlAPI, query, { slug });
+
+  return result.comments;
+};
+
+export const getPostsByCategory = async (slug: string): Promise<PostInfo[]> => {
+  const query = gql`
+    query GetPosts($slug: String!) {
+      posts(where: { categories_some: { slug: $slug } }) {
+        author {
+          bio
+          name
+          id
+          photo {
+            url
+          }
+        }
+        createdAt
+        slug
+        title
+        excerpt
+        featuredImage {
+          url
+        }
+        categories {
+          name
+          slug
+        }
+      }
+    }
+  `;
+
+  const result = await request(graphqlAPI, query, { slug });
+  console.log(result);
+  return result.posts;
 };
